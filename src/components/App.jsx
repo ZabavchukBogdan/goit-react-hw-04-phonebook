@@ -7,14 +7,14 @@ import { Container } from './App.styled';
 
 export function App  ()  {
   const [contacts, setContacts] = useState(
-    JSON.parse(window.localStorage.getItem('contacts'))
+    JSON.parse(window.localStorage.getItem('contacts')) ?? []
   );
   const [filter, setFilter] = useState('');
 
  // запис до сховища
   useEffect(() => {
-    window.localStorage.setItem('contacts', JSON.stringify(contacts));
-  });
+    window.localStorage.setItem('contacts', JSON.stringify(contacts)) ;
+  }, [contacts]);
 
   // функція запису отриманих даних до масиву contacts
 const formSubmit = data => {
@@ -32,8 +32,8 @@ const formSubmit = data => {
   };
 
   // функція видалення контакту зі списку
-  const deleteContact = Id => {
-    setContacts(contacts.filter(contact => contact.id !== Id));
+  const deleteContact = id => {
+    setContacts(prevContacts => prevContacts.filter(contact => contact.id !== id));
   };
 
   // умова пошуку контактів у списку за значенням веденних даних у поле filter
